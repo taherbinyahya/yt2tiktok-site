@@ -18,9 +18,13 @@
 <textarea id="url" readonly></textarea>
 <button id="copy">Copy</button>
 <script>
+  const q = new URLSearchParams(location.search);
+  // Logins started from the yt2tiktok web page go straight back to it on this computer.
+  if ((q.get("state") || "").startsWith("local-")) {
+    location.replace("http://localhost:8765/tiktok/callback" + location.search);
+  }
   const box = document.getElementById("url");
   box.value = location.href;
-  const q = new URLSearchParams(location.search);
   if (q.has("error")) {
     document.getElementById("title").textContent = "TikTok login was not completed";
     const msg = document.getElementById("msg");
